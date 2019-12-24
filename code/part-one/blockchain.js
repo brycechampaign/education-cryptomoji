@@ -51,7 +51,7 @@ class Block {
     this.transactions = transactions;
     this.previousHash = previousHash;
     this.nonce = 12;
-    this.hash = null;
+    this.hash = this.calculateHash(this.nonce);
   }
 
   /**
@@ -67,7 +67,9 @@ class Block {
     this.nonce = nonce;
     const hash = createHash('sha256');
     hash.update(nonce + this.previousHash + this.transactions.toString());
-    this.hash = hash.digest().toString();
+    const digestedHash = hash.digest().toString();
+    this.hash = digestedHash;
+    return digestedHash;
   }
 }
 
