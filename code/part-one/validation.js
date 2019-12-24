@@ -11,8 +11,12 @@ const signing = require('./signing');
  *   - have been modified since signing
  */
 const isValidTransaction = transaction => {
-  // Enter your solution here
-
+  const { source, recipient, amount, signature } = transaction;
+  if (transaction.amount < 0) return false;
+  if (!signing.verify(source, source + recipient + amount, signature)) {
+    return false;
+  }
+  return true;
 };
 
 /**
@@ -23,7 +27,6 @@ const isValidTransaction = transaction => {
  */
 const isValidBlock = block => {
   // Your code here
-
 };
 
 /**
@@ -38,7 +41,6 @@ const isValidBlock = block => {
  */
 const isValidChain = blockchain => {
   // Your code here
-
 };
 
 /**
@@ -48,7 +50,6 @@ const isValidChain = blockchain => {
  */
 const breakChain = blockchain => {
   // Your code here
-
 };
 
 module.exports = {
