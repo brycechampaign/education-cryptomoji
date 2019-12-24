@@ -47,7 +47,22 @@ const isValidBlock = block => {
  *   - contains any invalid transactions
  */
 const isValidChain = blockchain => {
-  // Your code here
+  const { blocks } = blockchain;
+
+  if (blocks[0].previousHash !== null) return false;
+  let previousHash = null;
+  for (let i = 0; i < blocks.length; i++) {
+    if (i !== 0 && blocks[i].previousHash === null) {
+      return false;
+    }
+
+    if (!isValidBlock(blocks[i])) return false;
+
+    if (previousHash !== blocks[i].previousHash) return false;
+    previousHash = blocks[i].hash;
+  }
+
+  return true;
 };
 
 /**
