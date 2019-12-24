@@ -48,7 +48,10 @@ class Block {
    *   - hash: a unique hash string generated from the other properties
    */
   constructor(transactions, previousHash) {
-    // Your code here
+    this.transactions = transactions;
+    this.previousHash = previousHash;
+    this.nonce = 12;
+    this.hash = null;
   }
 
   /**
@@ -61,7 +64,10 @@ class Block {
    *   properties change.
    */
   calculateHash(nonce) {
-    // Your code here
+    this.nonce = nonce;
+    const hash = createHash('sha256');
+    hash.update(nonce + this.previousHash + this.transactions.toString());
+    this.hash = hash.digest().toString();
   }
 }
 
