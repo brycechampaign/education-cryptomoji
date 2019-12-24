@@ -71,7 +71,7 @@ const isValidChain = blockchain => {
  * (in theory) make the blockchain fail later validation checks;
  */
 const breakChain = blockchain => {
-  // Your code here
+  blockchain.blocks[1].previousHash = null;
 };
 
 module.exports = {
