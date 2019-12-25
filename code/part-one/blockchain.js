@@ -67,7 +67,7 @@ class Block {
     this.nonce = nonce;
     const hash = createHash('sha256');
     hash.update(nonce + this.previousHash + this.transactions.toString());
-    const digestedHash = hash.digest().toString();
+    const digestedHash = hash.digest('hex');
     this.hash = digestedHash;
     return digestedHash;
   }
