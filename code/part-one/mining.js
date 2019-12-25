@@ -146,7 +146,34 @@ class MineableChain extends Blockchain {
  *     funds they don't have
  */
 const isValidMineableChain = blockchain => {
-  // Your code here
+  const zeros = '0'.repeat(blockchain.difficulty);
+
+  for (let block of blockchain.blocks) {
+    let nullCount = 0;
+    if (block.hash.slice(0, blockchain.difficulty) !== zeros) {
+      if (block.previousHash) return false;
+    }
+
+    for (let transaction of block.transactions) {
+      if (transaction.source === null) {
+        nullCount++;
+        if (transaction.amount !== blockchain.reward) {
+          return false;
+        }
+      }
+
+      if (
+        blockchain.getBalance(transaction.source) < 0 &&
+        transaction.source !== null
+      ) {
+        return false;
+      }
+
+      if (nullCount > 1) return false;
+    }
+  }
+
+  return true;
 };
 
 module.exports = {
