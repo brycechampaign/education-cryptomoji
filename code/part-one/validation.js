@@ -31,7 +31,7 @@ const isValidBlock = block => {
     if (!isValidTransaction(tx)) return false;
   }
   hash.update(block.nonce + block.previousHash + block.transactions.toString());
-  if (hash.digest().toString() !== block.hash) return false;
+  if (hash.digest('hex') !== block.hash) return false;
 
   return true;
 };
