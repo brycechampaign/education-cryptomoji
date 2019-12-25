@@ -73,7 +73,10 @@ class MineableChain extends Blockchain {
    *   This will only be used internally.
    */
   constructor() {
-    // Your code here
+    super();
+    this.difficulty = 1;
+    this.reward = 1;
+    this.miningQueue = [];
   }
 
   /**
@@ -88,7 +91,7 @@ class MineableChain extends Blockchain {
    * mineable transaction and simply store it until it can be mined.
    */
   addTransaction(transaction) {
-    // Your code here
+    this.miningQueue.push(transaction);
   }
 
   /**
@@ -106,7 +109,24 @@ class MineableChain extends Blockchain {
    *   Don't forget to clear your pending transactions after you're done.
    */
   mine(privateKey) {
-    // Your code here
+    let nonce = 0;
+    const zeros = '0'.repeat(this.difficulty);
+    const rewardTx = new MineableTransaction(privateKey, null, this.reward);
+    let newBlock = new MineableBlock(
+      [...this.miningQueue, rewardTx],
+      this.getHeadBlock().hash
+    );
+
+    while (
+      newBlock.hash === null ||
+      newBlock.hash.slice(0, this.difficulty) !== zeros
+    ) {
+      nonce++;
+      newBlock.calculateHash(nonce);
+    }
+
+    this.blocks.push(newBlock);
+    this.miningQueue = [];
   }
 }
 
