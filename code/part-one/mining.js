@@ -4,7 +4,6 @@ const { createHash } = require('crypto');
 const signing = require('./signing');
 const { Block, Blockchain } = require('./blockchain');
 
-
 /**
  * A slightly modified version of a transaction. It should work mostly the
  * the same as the non-mineable version, but now recipient is optional,
@@ -18,8 +17,19 @@ class MineableTransaction {
    * signer.
    */
   constructor(privateKey, recipient = null, amount) {
-    // Enter your solution here
+    if (recipient === null) {
+      this.source = null;
+      this.recipient = signing.getPublicKey(privateKey);
+    } else {
+      this.source = signing.getPublicKey(privateKey);
+      this.recipient = recipient;
+    }
 
+    this.amount = amount;
+    this.signature = signing.sign(
+      privateKey,
+      this.source + this.recipient + this.amount
+    );
   }
 }
 
@@ -35,7 +45,6 @@ class MineableBlock extends Block {
    */
   constructor(transactions, previousHash) {
     // Your code here
-
   }
 }
 
@@ -63,7 +72,6 @@ class MineableChain extends Blockchain {
    */
   constructor() {
     // Your code here
-
   }
 
   /**
@@ -79,7 +87,6 @@ class MineableChain extends Blockchain {
    */
   addTransaction(transaction) {
     // Your code here
-
   }
 
   /**
@@ -98,7 +105,6 @@ class MineableChain extends Blockchain {
    */
   mine(privateKey) {
     // Your code here
-
   }
 }
 
@@ -119,7 +125,6 @@ class MineableChain extends Blockchain {
  */
 const isValidMineableChain = blockchain => {
   // Your code here
-
 };
 
 module.exports = {
