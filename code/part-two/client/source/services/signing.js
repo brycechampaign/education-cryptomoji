@@ -1,7 +1,6 @@
 import * as secp256k1 from 'secp256k1';
 import { randomBytes, createHash } from 'crypto';
 
-
 /**
  * This module is essentially identical to part-one's signing module.
  * Feel free to copy in your solution from there.
@@ -10,8 +9,12 @@ import { randomBytes, createHash } from 'crypto';
  * a 64 character hex string.
  */
 export const createPrivateKey = () => {
-  // Enter your solution here
+  let privateKey;
+  do {
+    privateKey = randomBytes(32);
+  } while (!secp256k1.privateKeyVerify(privateKey));
 
+  return privateKey.toString('hex');
 };
 
 /**
@@ -19,8 +22,8 @@ export const createPrivateKey = () => {
  * 66 character hexadecimal string.
  */
 export const getPublicKey = privateKey => {
-  // Your code here
-
+  privateKey = Buffer.from(privateKey, 'hex');
+  return secp256k1.publicKeyCreate(privateKey).toString('hex');
 };
 
 /**
@@ -40,7 +43,6 @@ export const getPublicKey = privateKey => {
  */
 export const createKeys = () => {
   // Your code here
-
 };
 
 /**
@@ -49,5 +51,4 @@ export const createKeys = () => {
  */
 export const sign = (privateKey, message) => {
   // Your code here
-
 };
