@@ -9,7 +9,6 @@ import { createHash } from 'crypto';
 import { getPublicKey, sign } from './signing.js';
 import { encode } from './encoding.js';
 
-
 const FAMILY_NAME = 'cryptomoji';
 const FAMILY_VERSION = '0.1';
 const NAMESPACE = '5f4d76';
@@ -28,8 +27,28 @@ const NAMESPACE = '5f4d76';
  *   Also, don't forget to encode your payload!
  */
 export const createTransaction = (privateKey, payload) => {
-  // Enter your solution here
+  const encodedPayload = encode(payload);
+  let header = {
+    nonce: '' + Math.floor(Math.random() * Math.floor(10000000)),
+    familyName: FAMILY_NAME,
+    familyVersion: FAMILY_VERSION,
+    inputs: [NAMESPACE],
+    outputs: [NAMESPACE],
+    signerPublicKey: getPublicKey(privateKey),
+    batcherPublicKey: getPublicKey(privateKey),
+    dependencies: [],
+    payloadSha512: createHash('sha512')
+      .update(encodedPayload)
+      .digest('hex')
+  };
+  header = TransactionHeader.encode(header).finish();
 
+  const headerSignature = sign(privateKey, header).toString('hex');
+  return Transaction.create({
+    header,
+    headerSignature,
+    payload: encodedPayload
+  });
 };
 
 /**
@@ -41,7 +60,6 @@ export const createTransaction = (privateKey, payload) => {
  */
 export const createBatch = (privateKey, transactions) => {
   // Your code here
-
 };
 
 /**
@@ -54,7 +72,7 @@ export const createBatch = (privateKey, transactions) => {
  */
 export const encodeBatches = batches => {
   if (!Array.isArray(batches)) {
-    batches = [ batches ];
+    batches = [batches];
   }
   const batchList = BatchList.encode({ batches }).finish();
 
@@ -74,5 +92,4 @@ export const encodeBatches = batches => {
  */
 export const encodeAll = (privateKey, payloads) => {
   // Your code here
-
 };
