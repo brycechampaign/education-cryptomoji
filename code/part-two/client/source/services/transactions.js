@@ -59,7 +59,20 @@ export const createTransaction = (privateKey, payload) => {
  * transaction with no array.
  */
 export const createBatch = (privateKey, transactions) => {
-  // Your code here
+  if (!Array.isArray(transactions)) transactions = [transactions];
+  const headerSignatures = transactions.map(txn => txn.headerSignature);
+
+  let header = {
+    signerPublicKey: getPublicKey(privateKey),
+    transactionIds: headerSignatures
+  };
+  header = BatchHeader.encode(header).finish();
+
+  return Batch.create({
+    header,
+    headerSignature: sign(privateKey, header),
+    transactions
+  });
 };
 
 /**
