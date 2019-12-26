@@ -56,5 +56,9 @@ export const createKeys = () => {
  * hexadecimal signature.
  */
 export const sign = (privateKey, message) => {
-  // Your code here
+  const hash = createHash('sha256');
+  hash.update(message);
+  return secp256k1
+    .sign(hash.digest(), Buffer.from(privateKey, 'hex'))
+    .signature.toString('hex');
 };
