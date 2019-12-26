@@ -1,6 +1,5 @@
 import { createHash } from 'crypto';
 
-
 const NAMESPACE = '5f4d76';
 const PREFIXES = {
   COLLECTION: '00',
@@ -25,8 +24,12 @@ const PREFIXES = {
  *   // '5f4d7600ecd7ef459ec82a01211983551c3ed82169ca5fa0703ec98e17f9b534ffb797'
  */
 export const getCollectionAddress = (publicKey = null) => {
-  // Enter your solution here
+  if (publicKey === null) return NAMESPACE + PREFIXES.COLLECTION;
+  const hash = createHash('sha512')
+    .update(publicKey)
+    .digest('hex');
 
+  return NAMESPACE + PREFIXES.COLLECTION + hash.slice(0, 62);
 };
 
 /**
@@ -43,7 +46,6 @@ export const getCollectionAddress = (publicKey = null) => {
  */
 export const getMojiAddress = (ownerKey = null, dna = null) => {
   // Your code here
-
 };
 
 /**
@@ -55,7 +57,6 @@ export const getMojiAddress = (ownerKey = null, dna = null) => {
  */
 export const getSireAddress = (ownerKey = null) => {
   // Your code here
-
 };
 
 /**
@@ -72,5 +73,4 @@ export const getSireAddress = (ownerKey = null) => {
  */
 export const getOfferAddress = (ownerKey = null, moji = null) => {
   // Your code here
-
 };
