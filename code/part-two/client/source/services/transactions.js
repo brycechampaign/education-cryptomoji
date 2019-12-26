@@ -104,5 +104,10 @@ export const encodeBatches = batches => {
  * multiple payloads in an array.
  */
 export const encodeAll = (privateKey, payloads) => {
-  // Your code here
+  payloads = Array.isArray(payloads) ? payloads : [payloads];
+  const transactions = payloads.map(payload =>
+    createTransaction(privateKey, payload)
+  );
+
+  return encodeBatches(createBatch(privateKey, transactions));
 };
