@@ -16,8 +16,8 @@
  *   your object's keys or random transactions may fail.
  */
 const encode = object => {
-  // Enter your solution here
-
+  const sortedKeys = Object.keys(object).sort();
+  return Buffer.from(JSON.stringify(object, sortedKeys));
 };
 
 /**
@@ -25,8 +25,7 @@ const encode = object => {
  * the client version, there is no need to handle base64 strings.
  */
 const decode = buffer => {
-  // Your code here
-
+  return JSON.parse(buffer.toString());
 };
 
 module.exports = {
