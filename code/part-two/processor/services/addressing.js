@@ -89,7 +89,16 @@ const getOfferAddress = (ownerKey, addresses) => {
  *   console.log(isValid);  // false
  */
 const isValidAddress = address => {
-  // Your code here
+  if (typeof address !== 'string') return false;
+  if (address.length !== 70) return false;
+  if (address.slice(0, 6) !== NAMESPACE) return false;
+
+  for (let i = 0; i < address.length; i++) {
+    if (isNaN(parseInt(address.charAt(i), 16))) {
+      return false;
+    }
+  }
+  return true;
 };
 
 module.exports = {
