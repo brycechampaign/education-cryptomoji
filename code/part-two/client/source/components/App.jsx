@@ -1,5 +1,6 @@
 import React from 'react';
 import PrivateKeyGenerator from './PrivateKeyGenerator';
+import SignIn from './SignIn';
 import { useState } from 'react';
 
 const App = props => {
@@ -10,10 +11,7 @@ const App = props => {
       <h1>Hello, Cryptomoji!</h1>
       <PrivateKeyGenerator setGeneratedKey={setGeneratedKey} />
       {generatedKey === null ? '' : generatedKey}
-      <form>
-        <h2>Sign In With Your Private Key</h2>
-        <input type="text"></input>
-      </form>
+      <SignIn setPrivateKey={setPrivateKey} />
     </React.Fragment>
   );
 };
