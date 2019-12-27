@@ -70,7 +70,15 @@ export const getMojiAddress = (ownerKey = null, dna = null) => {
  * otherwise returns the full address.
  */
 export const getSireAddress = (ownerKey = null) => {
-  // Your code here
+  let address = NAMESPACE + PREFIXES.SIRE_LISTING;
+  if (ownerKey === null) return address;
+
+  const keyHash = createHash('sha512')
+    .update(ownerKey)
+    .digest('hex')
+    .slice(0, 62);
+
+  return address + keyHash;
 };
 
 /**
