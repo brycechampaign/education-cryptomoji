@@ -45,7 +45,21 @@ export const getCollectionAddress = (publicKey = null) => {
  *   console.log(ownerPrefix);  // '5f4d7601ecd7ef45'
  */
 export const getMojiAddress = (ownerKey = null, dna = null) => {
-  // Your code here
+  if (ownerKey === null && dna === null) return NAMESPACE + PREFIXES.MOJI;
+
+  const keyHash = createHash('sha512')
+    .update(ownerKey)
+    .digest('hex')
+    .slice(0, 8);
+
+  if (dna === null) return NAMESPACE + PREFIXES.MOJI + keyHash;
+
+  const dnaHash = createHash('sha512')
+    .update(dna)
+    .digest('hex')
+    .slice(0, 54);
+
+  return NAMESPACE + PREFIXES.MOJI + keyHash + dnaHash;
 };
 
 /**
