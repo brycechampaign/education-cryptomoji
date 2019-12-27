@@ -2,7 +2,6 @@
 
 const { createHash } = require('crypto');
 
-
 const NAMESPACE = '5f4d76';
 const PREFIXES = {
   COLLECTION: '00',
@@ -24,8 +23,11 @@ const PREFIXES = {
  *   // '5f4d7600ecd7ef459ec82a01211983551c3ed82169ca5fa0703ec98e17f9b534ffb797'
  */
 const getCollectionAddress = publicKey => {
-  // Enter your solution here
+  const hash = createHash('sha512')
+    .update(publicKey)
+    .digest('hex');
 
+  return NAMESPACE + PREFIXES.COLLECTION + hash.slice(0, 62);
 };
 
 /**
@@ -33,8 +35,17 @@ const getCollectionAddress = publicKey => {
  * corresponding moji address.
  */
 const getMojiAddress = (ownerKey, dna) => {
-  // Your code here
+  const keyHash = createHash('sha512')
+    .update(ownerKey)
+    .digest('hex')
+    .slice(0, 8);
 
+  const dnaHash = createHash('sha512')
+    .update(dna)
+    .digest('hex')
+    .slice(0, 54);
+
+  return NAMESPACE + PREFIXES.MOJI + keyHash + dnaHash;
 };
 
 /**
@@ -42,8 +53,12 @@ const getMojiAddress = (ownerKey, dna) => {
  * listing address.
  */
 const getSireAddress = ownerKey => {
-  // Your code here
+  const keyHash = createHash('sha512')
+    .update(ownerKey)
+    .digest('hex')
+    .slice(0, 62);
 
+  return NAMESPACE + PREFIXES.SIRE_LISTING + keyHash;
 };
 
 /**
@@ -59,7 +74,6 @@ const getSireAddress = ownerKey => {
  */
 const getOfferAddress = (ownerKey, addresses) => {
   // Your code here
-
 };
 
 /**
@@ -76,7 +90,6 @@ const getOfferAddress = (ownerKey, addresses) => {
  */
 const isValidAddress = address => {
   // Your code here
-
 };
 
 module.exports = {
