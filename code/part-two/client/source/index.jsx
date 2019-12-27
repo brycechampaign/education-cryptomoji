@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import App from './components/App';
 
-
-ReactDOM.render((
+ReactDOM.render(
   <BrowserRouter>
-    <h1>Hello, Cryptomoji!</h1>
-  </BrowserRouter>
-), document.getElementById('app'));
-
+    <App />
+  </BrowserRouter>,
+  document.getElementById('app')
+);
